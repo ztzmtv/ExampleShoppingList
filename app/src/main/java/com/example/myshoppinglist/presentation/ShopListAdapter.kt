@@ -1,7 +1,5 @@
 package com.example.myshoppinglist.presentation
 
-import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +8,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshoppinglist.R
 import com.example.myshoppinglist.domain.ShopItem
-import com.example.myshoppinglist.presentation.helper.ItemTouchHelperAdapter
-import com.example.myshoppinglist.presentation.helper.ItemTouchHelperViewHolder
 
-class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>(),
-    ItemTouchHelperAdapter {
+class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>() {
 
     companion object {
         const val TAG = "ShopListAdapter"
@@ -25,7 +20,6 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
 
     var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
     var onShopItemClickListener: ((ShopItem) -> Unit)? = null
-    var onShopItemSwipeListener: ((ShopItem) -> Unit)? = null
 
     var shopList = listOf<ShopItem>()
         set(value) {
@@ -78,30 +72,8 @@ class ShopListAdapter : RecyclerView.Adapter<ShopListAdapter.ShopItemViewHolder>
     }
 
 
-    class ShopItemViewHolder(val view: View) : RecyclerView.ViewHolder(view),
-        ItemTouchHelperViewHolder {
+    class ShopItemViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val tvName = view.findViewById<TextView>(R.id.tv_name)
         val tvCount = view.findViewById<TextView>(R.id.tv_count)
-
-        override fun onItemSelected() {
-            view.setBackgroundColor(Color.LTGRAY)
-        }
-
-        override fun onItemClear() {
-            view.setBackgroundColor(0)
-        }
     }
-
-    override fun onItemMove(fromPosition: Int, toPosition: Int) {
-        TODO("Not yet implemented")
-    }
-
-
-    override fun onItemDismiss(position: Int) {
-        val shopItem = shopList[position]
-        onShopItemSwipeListener?.invoke(shopItem)
-        Log.d(TAG, "onItemDismiss()")
-
-    }
-
 }

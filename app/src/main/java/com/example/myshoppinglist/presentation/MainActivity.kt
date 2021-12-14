@@ -7,13 +7,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshoppinglist.R
-import com.example.myshoppinglist.presentation.helper.ItemTouchHelperCallback
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
-    private lateinit var callbackHelper: ItemTouchHelper.Callback
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +22,7 @@ class MainActivity : AppCompatActivity() {
             shopListAdapter.shopList = it
         }
     }
+
 
     private fun setupRecyclerView() {
         val rvShopList = findViewById<RecyclerView>(R.id.rv_shop_list)
@@ -39,21 +38,49 @@ class MainActivity : AppCompatActivity() {
                 ShopListAdapter.MAX_POOL_SIZE
             )
         }
-        shopListAdapter.onShopItemLongClickListener = {
-            viewModel.changeEnableState(it)
+
+        setupLongClickListener()
+        setupClickListener()
+        setupSwipeListener(rvShopList)
+    }
+
+
+    private fun setupSwipeListener(rvShopList: RecyclerView?) {
+        val callback = object : ItemTouchHelper.SimpleCallback(
+            0,
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = shopListAdapter.shopList[viewHolder.adapterPosition]
+                viewModel.deleteShopItem(item)
+            }
         }
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(rvShopList)
+    }
+
+
+    private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = {
             Log.d(TAG, it.toString())
         }
-        shopListAdapter.onShopItemSwipeListener={
-            viewModel.deleteShopItem(it)
-        }
-
-        callbackHelper = ItemTouchHelperCallback(shopListAdapter)
-        val mItemTouchHelper = ItemTouchHelper(callbackHelper)
-        mItemTouchHelper.attachToRecyclerView(rvShopList)
-
     }
+
+
+    private fun setupLongClickListener() {
+        shopListAdapter.onShopItemLongClickListener = {
+            viewModel.changeEnableState(it)
+        }
+    }
+
 
     companion object {
         const val TAG = "MainActivity"
