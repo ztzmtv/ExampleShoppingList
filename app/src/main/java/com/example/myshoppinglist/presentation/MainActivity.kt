@@ -19,10 +19,9 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopList.observe(this) {
-            shopListAdapter.shopList = it
+            shopListAdapter.submitList(it)
         }
     }
-
 
     private fun setupRecyclerView() {
         val rvShopList = findViewById<RecyclerView>(R.id.rv_shop_list)
@@ -44,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         setupSwipeListener(rvShopList)
     }
 
-
     private fun setupSwipeListener(rvShopList: RecyclerView?) {
         val callback = object : ItemTouchHelper.SimpleCallback(
             0,
@@ -59,7 +57,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = shopListAdapter.shopList[viewHolder.adapterPosition]
+                val item = shopListAdapter.currentList[viewHolder.adapterPosition]
                 viewModel.deleteShopItem(item)
             }
         }
@@ -67,20 +65,17 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(rvShopList)
     }
 
-
     private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = {
             Log.d(TAG, it.toString())
         }
     }
 
-
     private fun setupLongClickListener() {
         shopListAdapter.onShopItemLongClickListener = {
             viewModel.changeEnableState(it)
         }
     }
-
 
     companion object {
         const val TAG = "MainActivity"
