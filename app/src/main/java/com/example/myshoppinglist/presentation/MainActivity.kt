@@ -1,7 +1,7 @@
 package com.example.myshoppinglist.presentation
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -67,7 +67,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupClickListener() {
         shopListAdapter.onShopItemClickListener = {
-            Log.d(TAG, it.toString())
+            val intent = Intent(this, ShopItemActivity::class.java)
+            startActivity(intent)
         }
     }
 

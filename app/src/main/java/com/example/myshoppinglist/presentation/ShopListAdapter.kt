@@ -45,9 +45,7 @@ class ShopListAdapter :
 
             if (shopItem.enabled) {
                 tvName.setTextColor(
-                    ContextCompat.getColor(
-                        holder.view.context,
-                        android.R.color.holo_red_light
+                    ContextCompat.getColor(holder.view.context,android.R.color.holo_red_light
                     )
                 )
             }
