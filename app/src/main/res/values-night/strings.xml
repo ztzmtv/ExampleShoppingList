@@ -3,4 +3,6 @@
     <string name="name_hint">name hint</string>
     <string name="count_hint">count hint</string>
     <string name="save_btn">save</string>
+    <string name="error_input_count">error input count</string>
+    <string name="error_input_name">error input name</string>
 </resources>

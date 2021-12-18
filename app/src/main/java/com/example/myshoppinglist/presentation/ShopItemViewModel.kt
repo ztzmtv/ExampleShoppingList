@@ -49,7 +49,7 @@ class ShopItemViewModel : ViewModel() {
         }
     }
 
-    fun editShopItem(oldId: Int, inputName: String?, inputCount: String?) {
+    fun editShopItem(inputName: String?, inputCount: String?) {
         //TODO: wrong method, fix later
         val name = parseName(inputName)
         val count = parseCount(inputCount)
@@ -60,7 +60,6 @@ class ShopItemViewModel : ViewModel() {
                 editShopItemUseCase.editShopItem(item)
                 finishWork()
             }
-
         }
     }
 
@@ -79,7 +78,7 @@ class ShopItemViewModel : ViewModel() {
             result = false
         }
         if (count <= 0) {
-            _errorInputName.value = true
+            _errorInputCount.value = true
             result = false
         }
         return result
@@ -90,7 +89,7 @@ class ShopItemViewModel : ViewModel() {
     }
 
     fun resetErrorInputCount() {
-        _errorInputName.value = false
+        _errorInputCount.value = false
     }
 
     private fun finishWork() {
