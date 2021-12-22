@@ -1,5 +1,6 @@
 package com.example.myshoppinglist.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -17,6 +18,7 @@ import com.google.android.material.textfield.TextInputLayout
 
 class ShopItemFragment : Fragment() {
     private lateinit var viewModel: ShopItemViewModel
+    private lateinit var onEditFinishedListener: OnEditFinishedListener
 
     private lateinit var tilName: TextInputLayout
     private lateinit var tilCount: TextInputLayout
@@ -27,6 +29,16 @@ class ShopItemFragment : Fragment() {
     private var screenMode: String = MODE_UNKNOWN
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnEditFinishedListener) {
+            onEditFinishedListener = context
+        } else {
+          throw RuntimeException("Activity must implement OnEditFinishedListener")
+        }
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,6 +46,7 @@ class ShopItemFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_shop_item, container, false)
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +78,7 @@ class ShopItemFragment : Fragment() {
             }
         }
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            activity?.onBackPressed()
+            onEditFinishedListener.onEditFinished()
         }
     }
 
@@ -167,5 +180,9 @@ class ShopItemFragment : Fragment() {
                 }
             }
         }
+    }
+
+    interface OnEditFinishedListener {
+        fun onEditFinished()
     }
 }

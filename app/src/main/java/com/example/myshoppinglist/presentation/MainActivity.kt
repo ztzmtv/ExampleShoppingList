@@ -1,6 +1,7 @@
 package com.example.myshoppinglist.presentation
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myshoppinglist.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditFinishedListener {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var shopListAdapter: ShopListAdapter
@@ -34,7 +35,6 @@ class MainActivity : AppCompatActivity() {
                 val fragment = ShopItemFragment.newInstanceAddItem()
                 launchFragment(fragment)
             }
-
         }
     }
 
@@ -43,8 +43,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun launchFragment(fragment: Fragment) {
+        supportFragmentManager.popBackStack()
         supportFragmentManager.beginTransaction()
             .add(R.id.shop_item_container_land, fragment)
+            .addToBackStack(null)
             .commit()
     }
 
@@ -111,5 +113,10 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "MainActivity"
+    }
+
+    override fun onEditFinished() {
+        Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show()
+        supportFragmentManager.popBackStack()
     }
 }
