@@ -98,7 +98,6 @@ class ShopItemFragment : Fragment() {
 
             override fun afterTextChanged(p0: Editable?) {
             }
-
         })
         etCount.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -110,7 +109,6 @@ class ShopItemFragment : Fragment() {
 
             override fun afterTextChanged(p0: Editable?) {
             }
-
         })
     }
 

@@ -10,9 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyShoppingList">
         <activity
-            android:name=".presentation.ShopItemActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:name=".presentation.ShopItemActivity">
         </activity>
         <activity
             android:name=".presentation.MainActivity"
