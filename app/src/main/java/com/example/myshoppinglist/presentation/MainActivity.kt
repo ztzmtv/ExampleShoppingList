@@ -13,8 +13,13 @@ import com.example.myshoppinglist.databinding.ActivityMainBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditFinishedListener {
-
-    private lateinit var viewModel: MainViewModel
+    private val viewModel by lazy {
+        ViewModelProvider(this)[MainViewModel::class.java]
+//        ViewModelProvider(
+//            this,
+//            MainViewModelProviderFactory(application)
+//        )[MainViewModel::class.java]
+    }
     private lateinit var shopListAdapter: ShopListAdapter
     private lateinit var binding: ActivityMainBinding
     private var shopItemContainer: FragmentContainerView? = null
@@ -25,7 +30,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditFinishedListene
         setContentView(binding.root)
         shopItemContainer = findViewById(R.id.shop_item_container_land)
         setupRecyclerView()
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
         viewModel.shopList.observe(this) {
             shopListAdapter.submitList(it)
         }
