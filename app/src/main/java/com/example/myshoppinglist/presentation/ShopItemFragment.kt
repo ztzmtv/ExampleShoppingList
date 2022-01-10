@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,12 +32,17 @@ class ShopItemFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        Log.d("LOADING_TEST", "onAttach")
         if (context is OnEditFinishedListener) {
             onEditFinishedListener = context
         } else {
-          throw RuntimeException("Activity must implement OnEditFinishedListener")
+            throw RuntimeException("Activity must implement OnEditFinishedListener")
         }
+    }
 
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("LOADING_TEST", "onDetach")
     }
 
     override fun onCreateView(
@@ -44,13 +50,25 @@ class ShopItemFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d("LOADING_TEST", "--onCreateView")
         return inflater.inflate(R.layout.fragment_shop_item, container, false)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("LOADING_TEST", "--onDestroyView")
     }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         parseParams()
+        Log.d("LOADING_TEST", "-onCreate")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("LOADING_TEST", "-onDestroy")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,7 +78,29 @@ class ShopItemFragment : Fragment() {
         addTextChangeListeners()
         launchRightMode()
         observeViewModel()
+
+        Log.d("LOADING_TEST", "---onViewCreated")
     }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("LOADING_TEST", "-----onPause")
+    }
+    override fun onResume() {
+        super.onResume()
+        Log.d("LOADING_TEST", "-----onResume")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("LOADING_TEST", "----onStart")
+    }
+
+    override fun onStop() {
+        super.onStop()
+            Log.d("LOADING_TEST", "----onStop")
+    }
+
 
     private fun observeViewModel() {
         viewModel.errorInputName.observe(viewLifecycleOwner) {

@@ -2,9 +2,12 @@ package com.example.myshoppinglist.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ListAdapter
 import com.example.myshoppinglist.R
+import com.example.myshoppinglist.databinding.ItemShopDisabledBinding
+import com.example.myshoppinglist.databinding.ItemShopEnabledBinding
 import com.example.myshoppinglist.domain.ShopItem
 
 class ShopListAdapter :
@@ -26,30 +29,46 @@ class ShopListAdapter :
             SHOP_ITEM_DISABLED -> R.layout.item_shop_disabled
             else -> throw RuntimeException("Unknown view type: $viewType")
         }
-        val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
-        return ShopItemViewHolder(view)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(
+            LayoutInflater.from(parent.context),
+            layout,
+            parent,
+            false
+        )
+        return ShopItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
         val shopItem = getItem(position)
-        with(holder) {
-            tvName.text = shopItem.name
-            tvCount.text = shopItem.count.toString()
-            view.setOnClickListener {
+        val binding = holder.binding
+        with(binding.root) {
+            setOnClickListener {
                 onShopItemClickListener?.invoke(shopItem)
             }
-            view.setOnLongClickListener {
+            setOnLongClickListener {
                 onShopItemLongClickListener?.invoke(shopItem)
                 true
             }
 
-            if (shopItem.enabled) {
-                tvName.setTextColor(
-                    ContextCompat.getColor(holder.view.context,android.R.color.holo_red_light
-                    )
-                )
+//            if (shopItem.enabled) {
+//                tvName.setTextColor(
+//                    ContextCompat.getColor(
+//                        holder.view.context, android.R.color.holo_red_light
+//                    )
+//                )
+//            }
+        }
+        when (binding) {
+            is ItemShopDisabledBinding -> {
+                binding.tvName.text = shopItem.name
+                binding.tvCount.text = shopItem.count.toString()
+            }
+            is ItemShopEnabledBinding -> {
+                binding.tvName.text = shopItem.name
+                binding.tvCount.text = shopItem.count.toString()
             }
         }
+
     }
 
     override fun getItemViewType(position: Int): Int {
