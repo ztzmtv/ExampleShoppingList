@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditFinishedListene
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         shopItemContainer = findViewById(R.id.shop_item_container_land)
         setupRecyclerView()
 

@@ -86,6 +86,7 @@ class ShopItemFragment : Fragment() {
         super.onPause()
         Log.d("LOADING_TEST", "-----onPause")
     }
+
     override fun onResume() {
         super.onResume()
         Log.d("LOADING_TEST", "-----onResume")
@@ -98,7 +99,7 @@ class ShopItemFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
-            Log.d("LOADING_TEST", "----onStop")
+        Log.d("LOADING_TEST", "----onStop")
     }
 
 

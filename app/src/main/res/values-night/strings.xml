@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="name_hint">name hint</string>
-    <string name="count_hint">count hint</string>
+    <string name="name_hint">input name</string>
+    <string name="count_hint">input count</string>
     <string name="save_btn">save</string>
     <string name="error_input_count">error input count</string>
     <string name="error_input_name">error input name</string>
