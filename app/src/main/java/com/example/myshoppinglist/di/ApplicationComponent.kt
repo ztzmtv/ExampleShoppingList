@@ -9,7 +9,10 @@ import dagger.BindsInstance
 import dagger.Component
 
 @Component(
-    modules = [ViewModelModule::class]
+    modules = [
+        DataModule::class,
+        ViewModelModule::class
+    ]
 )
 interface ApplicationComponent {
 
