@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditFinishedListene
         (application as ShopItemApp).component
     }
 
-
     private lateinit var shopListAdapter: ShopListAdapter
     private lateinit var binding: ActivityMainBinding
 

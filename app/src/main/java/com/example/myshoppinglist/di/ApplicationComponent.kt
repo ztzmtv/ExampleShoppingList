@@ -14,6 +14,7 @@ import dagger.Component
         ViewModelModule::class
     ]
 )
+@ApplicationScope
 interface ApplicationComponent {
 
     fun inject(activity: MainActivity)

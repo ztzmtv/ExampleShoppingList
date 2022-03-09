@@ -1,6 +1,5 @@
 package com.example.myshoppinglist.data
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.myshoppinglist.domain.ShopItem
@@ -8,11 +7,9 @@ import com.example.myshoppinglist.domain.ShopListRepository
 import javax.inject.Inject
 
 class ShopListRepositoryImpl @Inject constructor(
-    application: Application
+    private val shopListDao: ShopListDao,
+    private val mapper: ShopListMapper
 ) : ShopListRepository {
-
-    private val shopListDao = AppDatabase.getInstance(application).shopListDao()
-    private val mapper = ShopListMapper()
 
     override suspend fun addShopItem(shopItem: ShopItem) {
         shopListDao.addShopItem(mapper.mapEntityToDbModel(shopItem))

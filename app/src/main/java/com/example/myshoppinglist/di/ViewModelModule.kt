@@ -15,7 +15,6 @@ interface ViewModelModule {
     @Binds
     fun bindMainViewModel(impl: MainViewModel): ViewModel
 
-
     @IntoMap
     @ViewModelKey(ShopItemViewModel::class)
     @Binds
