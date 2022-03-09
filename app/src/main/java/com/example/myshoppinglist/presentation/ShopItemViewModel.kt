@@ -1,8 +1,9 @@
 package com.example.myshoppinglist.presentation
 
-import android.app.Application
-import androidx.lifecycle.*
-import com.example.myshoppinglist.data.ShopListRepositoryImpl
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myshoppinglist.domain.AddShopItemUseCase
 import com.example.myshoppinglist.domain.EditShopItemUseCase
 import com.example.myshoppinglist.domain.GetShopItemUseCase
@@ -32,7 +33,6 @@ class ShopItemViewModel @Inject constructor(
     val shopItem: LiveData<ShopItem>
         get() = _shopItem
 
-
     fun getShopItem(id: Int) {
         viewModelScope.launch {
             val item = getShopItemUseCase.getShopItem(id)
@@ -54,7 +54,6 @@ class ShopItemViewModel @Inject constructor(
     }
 
     fun editShopItem(inputName: String?, inputCount: String?) {
-        //TODO: wrong method, fix later
         val name = parseName(inputName)
         val count = parseCount(inputCount)
         val isValidFields = validateInput(name, count)
@@ -101,5 +100,4 @@ class ShopItemViewModel @Inject constructor(
     private fun finishWork() {
         _shouldCloseScreen.value = Unit
     }
-
 }

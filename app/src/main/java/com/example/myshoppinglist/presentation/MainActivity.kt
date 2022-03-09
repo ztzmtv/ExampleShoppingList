@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshoppinglist.R
 import com.example.myshoppinglist.databinding.ActivityMainBinding
-import com.example.myshoppinglist.di.DaggerApplicationComponent
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditFinishedListener {
@@ -119,10 +118,6 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditFinishedListene
         shopListAdapter.onShopItemLongClickListener = {
             viewModel.changeEnableState(it)
         }
-    }
-
-    companion object {
-        const val TAG = "MainActivity"
     }
 
     override fun onEditFinished() {

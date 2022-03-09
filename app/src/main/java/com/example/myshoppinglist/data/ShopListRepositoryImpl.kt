@@ -32,10 +32,4 @@ class ShopListRepositoryImpl @Inject constructor(
         Transformations.map(shopListDao.getShopList()) {
             mapper.mapListDbModelToListEntity(it)
         }
-//    =
-//        MediatorLiveData<List<ShopItem>>().apply {
-//            addSource(shopListDao.getShopList()) {
-//                value = mapper.mapListDbModelToListEntity(it)
-//            }
-//        }
 }

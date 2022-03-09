@@ -20,6 +20,7 @@ class ShopItemFragment : Fragment() {
     private val component by lazy {
         (requireActivity().application as ShopItemApp).component
     }
+
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 

@@ -1,7 +1,6 @@
 package com.example.myshoppinglist.di
 
 import android.app.Application
-import android.content.Context
 import com.example.myshoppinglist.presentation.MainActivity
 import com.example.myshoppinglist.presentation.ShopItemActivity
 import com.example.myshoppinglist.presentation.ShopItemFragment

@@ -14,7 +14,6 @@ class ShopListAdapter :
     ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCallback()) {
 
     companion object {
-        const val TAG = "ShopListAdapter"
         const val SHOP_ITEM_ENABLED = 1
         const val SHOP_ITEM_DISABLED = 0
         const val MAX_POOL_SIZE = 20
