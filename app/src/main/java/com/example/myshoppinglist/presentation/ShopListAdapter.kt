@@ -2,16 +2,18 @@ package com.example.myshoppinglist.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.ListAdapter
 import com.example.myshoppinglist.R
+import com.example.myshoppinglist.databinding.ItemShopDisabledBinding
+import com.example.myshoppinglist.databinding.ItemShopEnabledBinding
 import com.example.myshoppinglist.domain.ShopItem
 
 class ShopListAdapter :
     ListAdapter<ShopItem, ShopItemViewHolder>(ShopItemDiffCallback()) {
 
     companion object {
-        const val TAG = "ShopListAdapter"
         const val SHOP_ITEM_ENABLED = 1
         const val SHOP_ITEM_DISABLED = 0
         const val MAX_POOL_SIZE = 20
@@ -26,28 +28,35 @@ class ShopListAdapter :
             SHOP_ITEM_DISABLED -> R.layout.item_shop_disabled
             else -> throw RuntimeException("Unknown view type: $viewType")
         }
-        val view = LayoutInflater.from(parent.context).inflate(layout, parent, false)
-        return ShopItemViewHolder(view)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(
+            LayoutInflater.from(parent.context),
+            layout,
+            parent,
+            false
+        )
+        return ShopItemViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
         val shopItem = getItem(position)
-        with(holder) {
-            tvName.text = shopItem.name
-            tvCount.text = shopItem.count.toString()
-            view.setOnClickListener {
+        val binding = holder.binding
+        with(binding.root) {
+            setOnClickListener {
                 onShopItemClickListener?.invoke(shopItem)
             }
-            view.setOnLongClickListener {
+            setOnLongClickListener {
                 onShopItemLongClickListener?.invoke(shopItem)
                 true
             }
-
-            if (shopItem.enabled) {
-                tvName.setTextColor(
-                    ContextCompat.getColor(holder.view.context,android.R.color.holo_red_light
-                    )
-                )
+        }
+        when (binding) {
+            is ItemShopDisabledBinding -> {
+                binding.tvName.text = shopItem.name
+                binding.tvCount.text = shopItem.count.toString()
+            }
+            is ItemShopEnabledBinding -> {
+                binding.tvName.text = shopItem.name
+                binding.tvCount.text = shopItem.count.toString()
             }
         }
     }
