@@ -2,6 +2,7 @@ package com.example.myshoppinglist.presentation
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myshoppinglist.R
 import com.example.myshoppinglist.databinding.ActivityMainBinding
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditFinishedListener {
     @Inject
@@ -46,14 +48,20 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditFinishedListene
                 launchFragment(fragment)
             }
         }
-        contentResolver.query(
-            Uri.parse("content://com.example.myshoppinglist/shop_items"),
-            null,
-            null,
-            null,
-            null,
-            null,
-        )
+        thread {
+            val cursor = contentResolver.query(
+                Uri.parse("content://com.example.myshoppinglist/shop_items"),
+                null,
+                null,
+                null,
+                null,
+                null,
+            )
+            while (cursor?.moveToNext() == true) {
+                for (name in cursor.columnNames)
+                    Log.d("MainActivity_TAG", name)
+            }
+        }
     }
 
     private fun isOnePaneMode(): Boolean {
