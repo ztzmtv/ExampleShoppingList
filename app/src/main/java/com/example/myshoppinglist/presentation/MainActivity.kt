@@ -71,6 +71,7 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditFinishedListene
                 )
                 Log.d("MainActivity_TAG", shopItem.toString())
             }
+            cursor?.close()
         }
     }
 
