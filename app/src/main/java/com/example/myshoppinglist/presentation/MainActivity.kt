@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myshoppinglist.R
 import com.example.myshoppinglist.databinding.ActivityMainBinding
+import com.example.myshoppinglist.domain.ShopItem
 import javax.inject.Inject
 import kotlin.concurrent.thread
 
@@ -58,8 +59,17 @@ class MainActivity : AppCompatActivity(), ShopItemFragment.OnEditFinishedListene
                 null,
             )
             while (cursor?.moveToNext() == true) {
-                for (name in cursor.columnNames)
-                    Log.d("MainActivity_TAG", name)
+                val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+                val name = cursor.getString(cursor.getColumnIndexOrThrow("name"))
+                val count = cursor.getInt(cursor.getColumnIndexOrThrow("count"))
+                val enabled = cursor.getInt(cursor.getColumnIndexOrThrow("enabled")) > 0
+                val shopItem = ShopItem(
+                    id = id,
+                    name = name,
+                    count = count,
+                    enabled = enabled
+                )
+                Log.d("MainActivity_TAG", shopItem.toString())
             }
         }
     }
