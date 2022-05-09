@@ -58,7 +58,7 @@ class ShopItemFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         Log.d("LOADING_TEST", "--onCreateView")
         _binding = FragmentShopItemBinding.inflate(inflater, container, false)
         return binding.root
@@ -140,16 +140,31 @@ class ShopItemFragment : Fragment() {
     }
 
     private fun launchEditMode() {
+        var shopItem: ShopItem? = null
         viewModel.getShopItem(shopItemId)
         viewModel.shopItem.observe(viewLifecycleOwner) {
             binding.etName.setText(it.name)
             binding.etCount.setText(it.count.toString())
+            shopItem = it
         }
         binding.saveButton.setOnClickListener {
-            viewModel.editShopItem(
-                binding.etName.text?.toString(),
-                binding.etCount.text?.toString()
-            )
+//            viewModel.editShopItem(
+//                binding.etName.text?.toString(),
+//                binding.etCount.text?.toString()
+//            )
+            thread {
+                context?.contentResolver?.update(
+                    Uri.parse("content://com.example.myshoppinglist/shop_items"),
+                    ContentValues().apply {
+                        put("id", shopItem?.id)
+                        put("name", binding.etName.text?.toString())
+                        put("count", binding.etCount.text?.toString())
+                        put("enabled", shopItem?.enabled)
+                    },
+                    null,
+                    null
+                )
+            }
         }
     }
 
